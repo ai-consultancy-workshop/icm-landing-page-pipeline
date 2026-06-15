@@ -1,8 +1,10 @@
 # Questionnaire router (Layer 3)
 
-Entry path B only. Pick the questionnaire that best fits the business, then ask its
-questions conversationally in stage 00 — don't paste the whole list at once. Record
-answers into `business-profile.json`.
+Used in stage 00. **Path B** (no usable site) picks the questionnaire that best fits
+the business and asks its questions conversationally — don't paste the whole list at
+once. **Path A** (improve an existing site) imports brand/visuals from the site at
+stage 01, but still asks the shared-core **intent** questions below — conversion intent
+can't be scraped. Record answers into `business-profile.json`.
 
 ## Choosing the set
 
@@ -19,9 +21,12 @@ If unsure between two, pick the closer fit and pull any extra questions you need
 `generic.md`. The goal is a complete `business-profile.json`, not rigid adherence to
 one list.
 
-## Shared core (ask for every business type)
+## Shared core (ask for every business type — intent subset also on Path A)
 
-Every questionnaire assumes these are captured first:
+Every questionnaire assumes these are captured first. On **Path A**, the must-ask
+**intent** questions are **2–5** (what you do/sell, primary goal, primary CTA, target
+audience); brand, tone, contact and assets are imported from the site at stage 01, and
+"anything to avoid" (9) feeds `must_fix`:
 
 1. **Business name** and one-line description ("we help X do Y").
 2. **Sector / what you do** in plain language.

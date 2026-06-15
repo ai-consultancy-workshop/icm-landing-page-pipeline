@@ -14,8 +14,12 @@ You are setting up the inputs the whole pipeline runs on. Do not design or build
 1. Determine the **entry path**:
    - **Path A** if the operator gives a live URL flagged for improvement.
    - **Path B** if there is no usable site — run the questionnaire instead.
-2. Path A: record the URL and the operator's stated reasons for improvement (what's
-   wrong, what to keep). Do **not** scrape yet — that is stage 01's job.
+2. Path A: record the URL and the operator's stated reasons for improvement
+   (`must_keep` / `must_fix`). Brand and visuals are **imported** from the site at
+   stage 01, but **conversion intent can't be scraped** — so also ask the shared-core
+   **intent** questions from `_router.md` (items 2–5: what you do/sell, `primary_goal`,
+   `primary_cta` + secondary, `target_audience`). Do **not** scrape yet — that is
+   stage 01's job.
 3. Path B: use `_router.md` to pick the business-type questionnaire, ask the
    questions (don't dump them all at once — converse), and record the answers.
 4. Normalise everything into a structured profile. Fill every field you can; mark
@@ -34,6 +38,8 @@ You are setting up the inputs the whole pipeline runs on. Do not design or build
 ## Verify
 
 - `entry_path` is set and consistent (Path A has `existing_url`; Path B does not require it).
+- **Conversion intent is captured on both paths** — `primary_goal`, `primary_cta` and
+  `target_audience` are set (not left `null` for stage 02 to invent), even on Path A.
 - No invented facts — anything not gathered is `null`, not filled from assumption.
 
 ## Review gate
