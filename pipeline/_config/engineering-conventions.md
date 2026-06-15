@@ -20,19 +20,51 @@ The build baseline for every generated site. Stable craft; the **brand is per-cu
 - Never fetch server-only data inside a client component. Pass data down as
   serialisable props.
 - Images: `next/image` always; the LCP/hero image gets `priority`; set `sizes`.
-- Fonts: `next/font` (Google or local) wired into the Tailwind theme; `display: swap`.
+- Fonts: `next/font` (Google or local), `display: swap`. Put the font's `.variable`
+  className on `<html>`; in `@theme inline` use **literal** family names
+  (`--font-sans: "Inter", ui-sans-serif, …`), never the runtime `var(--font-…)` —
+  `@theme inline` resolves at parse time, so a runtime font var silently breaks loading.
 - Metadata: export `metadata` or `generateMetadata` from the route — title,
   description, OpenGraph — sourced from the spec.
 - Use `proxy.ts` (not `middleware.ts`) if interception is ever needed (Next 16+).
 
-## Brand tokens, not hardcoded colours
+## Brand tokens, not hardcoded colours (Tailwind v4)
 
-- Map `tokens.json` (OKLCH) into the Tailwind theme / `globals.css` as semantic CSS
-  variables: `--background`, `--foreground`, `--primary`, `--muted`, `--accent`,
-  `--border`, plus success/warning/error/info.
+`create-next-app@latest` + `shadcn@latest` scaffold **Tailwind v4**, which is
+**CSS-first**: there is **no `tailwind.config.js`** — the theme lives in
+`app/globals.css`. **Confirm the scaffolded Tailwind major before mapping tokens**
+(check `package.json`); the steps below assume v4. (Legacy v3 instead maps tokens via
+`tailwind.config.ts` `theme.extend`.)
+
+Install `tokens.json` (OKLCH) the way shadcn does:
+
+1. **Raw role values as CSS variables**, split by mode — light in `:root`, dark in `.dark`:
+
+   ```css
+   :root { --background: oklch(…); --foreground: oklch(…); --primary: oklch(…); /* … */ }
+   .dark { --background: oklch(…); --foreground: oklch(…); --primary: oklch(…); /* … */ }
+   ```
+
+2. **Expose them to utilities** via `@theme inline`, so `bg-primary` /
+   `text-muted-foreground` / `border-border` resolve:
+
+   ```css
+   @import "tailwindcss";
+   @custom-variant dark (&:is(.dark *));
+   @theme inline {
+     --color-background: var(--background);
+     --color-foreground: var(--foreground);
+     --color-primary:    var(--primary);
+     /* …one per semantic role; --radius and font tokens too */
+   }
+   ```
+
+3. **Dark mode** is the `.dark` class on `<html>` (e.g. `next-themes`,
+   `attribute="class"`); `@custom-variant dark` is what makes `dark:` utilities work.
+
 - Components reference **semantic tokens** (`bg-primary`, `text-muted-foreground`,
-  `border-border`) — never a raw hex. This keeps light + dark mode working.
-- Ship **light and dark mode** (system default). Never commit a colour that breaks a mode.
+  `border-border`) — never a raw hex. That is what keeps light + dark mode working.
+- Ship **light and dark mode**. Never commit a colour that breaks a mode.
 
 ## Visual craft (brand-agnostic mechanics)
 

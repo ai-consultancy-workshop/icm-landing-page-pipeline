@@ -17,10 +17,12 @@ the design and spec. You are writing real production code now.
    repo root, run `bash ../../scripts/scaffold-app.sh`. It runs `create-next-app`
    (App Router, TypeScript, Tailwind) and `shadcn init`. If the app already exists,
    skip — never re-scaffold over existing code.
-2. **Install brand tokens**: write the OKLCH values from `tokens.json` into the
-   Tailwind theme / `globals.css` as CSS variables and semantic tokens
-   (`--primary`, `--background`, …). Wire light + dark mode. Load fonts with
-   `next/font`. Never hardcode hex that breaks a mode.
+2. **Install brand tokens** (Tailwind v4 — confirm the scaffolded major first; v4 is
+   CSS-first, no `tailwind.config.js`): write the OKLCH values from `tokens.json` into
+   `app/globals.css` as raw CSS variables in `:root` (light) and `.dark` (dark), then
+   expose them to utilities via `@theme inline` (`--color-primary: var(--primary)`, …)
+   with `@custom-variant dark`. Load fonts with `next/font` (literal family names in
+   `@theme inline`). Never hardcode hex that breaks a mode. See `engineering-conventions.md`.
 3. **Build sections**: implement each section from `design.md` as a component.
    Server Components by default; `'use client'` only where interactivity/motion needs
    it. Compose shadcn/ui primitives where chosen; add Framer Motion per the motion

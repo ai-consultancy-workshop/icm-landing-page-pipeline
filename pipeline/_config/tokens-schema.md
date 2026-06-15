@@ -64,9 +64,13 @@ and 04. Keeping one shape means the brand stays consistent from capture to build
 
 ## Notes for the build stage
 
-- These map to the Tailwind theme / `globals.css` semantic variables
-  (`--primary`, `--background`, `--foreground`, `--muted`, `--border`, `--ring`, …)
-  and the semantic colours (`--success`, `--warning`, `--error`, `--info`).
-- `light`/`dark` populate the respective theme blocks; components only ever touch the
-  semantic token, so switching modes "just works".
-- `typography.*.source: "next/font/..."` tells the build how to load each family.
+- **Tailwind v4 (CSS-first, no `tailwind.config.js`).** These values become CSS
+  variables in `app/globals.css`: the raw role vars (`--background`, `--foreground`,
+  `--primary`, `--muted`, `--border`, `--ring`, …, plus `--success/--warning/--error/--info`)
+  are declared in `:root`, then exposed to utilities via `@theme inline`
+  (`--color-primary: var(--primary)`, …). See `engineering-conventions.md` for the shape.
+- `light` populates `:root`, `dark` populates the `.dark` block; components only ever
+  touch the semantic token, so switching modes "just works".
+- `typography.*.source: "next/font/..."` tells the build how to load each family — wire
+  it with the `.variable` className on `<html>` and **literal** family names in
+  `@theme inline` (not the runtime `var(--font-…)`).
