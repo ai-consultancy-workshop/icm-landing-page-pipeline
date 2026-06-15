@@ -41,7 +41,7 @@ npx --yes create-next-app@latest "$TMP/app" \
   --tailwind \
   --app \
   --eslint \
-  --src-dir=false \
+  --no-src-dir \
   --import-alias "@/*" \
   --disable-git \
   "$PM_FLAG" \
