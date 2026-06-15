@@ -10,7 +10,7 @@
 #
 # NOTE: create-next-app / shadcn flags drift between versions. The build agent
 # should re-read the `next-best-practices` skill and adjust flags to the installed
-# version if this errors. Prefer pnpm (this org uses pnpm + turbo).
+# version if this errors. Prefer pnpm, fall back to npm (see the package-manager check below).
 
 set -euo pipefail
 

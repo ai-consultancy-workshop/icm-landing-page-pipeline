@@ -84,10 +84,13 @@ the **customer's** palette and voice, not any fixed brand:
 - **Iconography.** lucide, consistent thin stroke, sized to context, tinted semantically.
 - **Generous spacing.** Sections breathe (`py-20`/`py-24`); content centred in
   `max-w-6xl`/`max-w-7xl`.
+- **Balanced headings.** `text-balance` on headings and lead paragraphs for tidy
+  wrapping; muted secondary text via `text-muted-foreground`, never a hardcoded gray.
+- **Underline accent.** Emphasised words in a big headline can get a small SVG swoosh
+  underline in `text-primary` — a tasteful flourish, used sparingly.
 
-> Reference: the bundled `brand-guidelines` skill describes these mechanics in
-> detail (as Sustentus's own system). Borrow the **technique**, never Sustentus's
-> purple/voice — the customer's brand always wins.
+> These are **mechanics, not a brand.** Apply them in the customer's palette and voice
+> (captured at stage 01) — never a fixed brand. The customer's brand always wins.
 
 ## Structure & quality
 
