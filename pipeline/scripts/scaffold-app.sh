@@ -43,6 +43,7 @@ npx --yes create-next-app@latest "$TMP/app" \
   --eslint \
   --src-dir=false \
   --import-alias "@/*" \
+  --disable-git \
   "$PM_FLAG" \
   --yes
 
@@ -56,9 +57,12 @@ if command -v rsync >/dev/null 2>&1; then
     --exclude '.claude/' \
     "$TMP/app/" "$REPO_ROOT/"
 else
-  # Fallback without rsync: copy everything except .git, then restore guards if needed.
-  cp -R "$TMP/app/." "$REPO_ROOT/"
-  rm -rf "$REPO_ROOT/.git" 2>/dev/null || true
+  # Fallback without rsync: copy each top-level entry, mirroring the rsync excludes.
+  # NEVER touch "$REPO_ROOT/.git" — we are already inside the customer's repo and must
+  # not create, clobber, or delete its history (see CLAUDE.md).
+  ( cd "$TMP/app" && find . -mindepth 1 -maxdepth 1 \
+      ! -name '.git' ! -name 'CLAUDE.md' ! -name 'pipeline' ! -name '.claude' \
+      -exec cp -R {} "$REPO_ROOT/" \; )
 fi
 
 # Initialise shadcn/ui (defaults; the build stage then adds components as needed).
